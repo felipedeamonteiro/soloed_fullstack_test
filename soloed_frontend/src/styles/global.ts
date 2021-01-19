@@ -10,6 +10,9 @@ export default createGlobalStyle`
 
   body {
     background: #e5e5e5;
+    height: 100%;
+    display: flex;
+    flex-direction: column;
   }
 
   body, input, button {

@@ -8,6 +8,7 @@ export const Container = styled.footer`
   justify-content: center;
   background: #eeeeee;
   bottom: 0;
+  flex-shrink: 0;
 
   p {
     font-family: 'Montserrat', sans-serif;

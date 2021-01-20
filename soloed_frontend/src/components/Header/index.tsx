@@ -125,7 +125,9 @@ const Header: React.FC = () => {
             <h2>Total:</h2>
             <h2>{total}</h2>
           </div>
-          <button type="button">Finalizar Compra</button>
+          <button type="button" onClick={() => window.location.reload()}>
+            Finalizar Compra
+          </button>
         </div>
       </nav>
     </Container>

@@ -1,4 +1,5 @@
 import styled from 'styled-components';
+import { shade } from 'polished';
 
 export const Container = styled.div`
   height: 100px;
@@ -83,76 +84,97 @@ export const Container = styled.div`
       justify-content: center;
       align-items: flex-start;
 
-      li {
-        list-style: none;
-        background: #fff;
-        box-shadow: -2px 2px 10px rgba(0, 0, 0, 0.05);
-        border-radius: 8px;
-        width: 380px;
-        height: 95px;
+      .nav-menu-items {
+        padding-top: 10px;
+        width: 400px;
+        max-height: 560px;
+        overflow-y: auto;
 
-        display: flex;
-        align-items: center;
-        justify-content: space-between;
-        flex-direction: row;
-
-        & + li {
-          margin-top: 28px;
+        ::-webkit-scrollbar {
+          width: 8px;
         }
 
-        img {
-          height: 60px;
+        ::-webkit-scrollbar-thumb {
+          background: #000;
+          border-radius: 10px;
         }
 
-        p {
-          width: 113px;
-          font-size: 13px;
+        ::-webkit-scrollbar-thumb:hover {
+          background: ${shade(0.1, '#000')};
         }
 
-        .add-remove {
+        li {
+          list-style: none;
+          background: #fff;
+          box-shadow: -2px 2px 10px rgba(0, 0, 0, 0.05);
+          border-radius: 8px;
+          width: 380px;
+          height: 95px;
+
           display: flex;
-          flex-direction: column;
+          align-items: center;
+          justify-content: space-between;
+          flex-direction: row;
+
+          & + li {
+            margin-top: 28px;
+          }
+
+          img {
+            height: 60px;
+          }
 
           p {
-            font-size: 9px;
+            width: 113px;
+            font-size: 13px;
           }
 
-          .qtd-div {
+          .add-remove {
             display: flex;
-            flex-direction: row;
-            align-items: center;
-            justify-content: center;
-            width: 66px;
-            border: 1px solid #ddd;
-            border-radius: 4px;
+            flex-direction: column;
 
-            input {
-              padding-left: 12px;
-              border: 0;
-              color: #666;
-              width: 35px;
-              font-size: 11px;
+            p {
+              font-size: 9px;
             }
 
-            button {
-              border: 0;
-              border-right: 1px solid #ddd;
-              background: none;
-            }
+            .qtd-div {
+              display: flex;
+              flex-direction: row;
+              align-items: center;
+              justify-content: center;
+              width: 66px;
+              border: 1px solid #ddd;
+              border-radius: 4px;
 
-            input + button {
-              border-left: 1px solid #ddd;
-              border-right: 0;
+              input {
+                padding-left: 12px;
+                border: 0;
+                color: #666;
+                width: 35px;
+                font-size: 11px;
+              }
+
+              button {
+                border: 0;
+                border-right: 1px solid #ddd;
+                background: none;
+              }
+
+              input + button {
+                border-left: 1px solid #ddd;
+                border-right: 0;
+              }
             }
           }
-        }
 
-        strong {
-          font-size: 14px;
-        }
+          strong {
+            font-size: 14px;
+            margin-right: 5px;
+          }
 
-        strong + svg {
-          margin: 0 0 87px -18px;
+          strong + svg {
+            margin: 0 0 87px -18px;
+          }
         }
       }
     }

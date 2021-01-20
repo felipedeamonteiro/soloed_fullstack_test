@@ -4,17 +4,50 @@ import { AiFillCloseCircle } from 'react-icons/ai';
 import { FaShoppingCart } from 'react-icons/fa';
 import { GrFormAdd } from 'react-icons/gr';
 import { IoMdRemove } from 'react-icons/io';
+import { useSelector, connect, useDispatch } from 'react-redux';
+
+import { formatPrice } from '../../util/format';
 import { Container } from './styles';
 import Logo from '../../assets/logo_soloed.svg';
-import AppleWatch from '../../assets/apple-watch.jpg';
-import JBLSpeaker from '../../assets/JBL_speaker.jpg';
+import { IState } from '../../store';
+import { ICartItem } from '../../store/modules/cart/types';
+import {
+  RemoveProductFromCart,
+  updateQuantity,
+} from '../../store/modules/cart/actions';
 
 const Header: React.FC = () => {
   const [sidebar, setSidebar] = useState<boolean>(false);
+  const cart = useSelector<IState, ICartItem[]>(state => state.cart.items);
+  const cartSize = useSelector<IState, number>(
+    state => state.cart.items.length,
+  );
+  const dispatch = useDispatch();
 
   const handleCartBar = useCallback(() => {
     setSidebar(!sidebar);
   }, [sidebar]);
+
+  const handleRemoveProductFromCart = useCallback(
+    (item: ICartItem) => {
+      dispatch(RemoveProductFromCart(item.product));
+    },
+    [dispatch],
+  );
+
+  const handleRemoveProductItemFromCart = useCallback(
+    (item: ICartItem) => {
+      dispatch(updateQuantity(item, item.quantity - 1));
+    },
+    [dispatch],
+  );
+
+  const handleAddProductItemFromCart = useCallback(
+    (item: ICartItem) => {
+      dispatch(updateQuantity(item, item.quantity + 1));
+    },
+    [dispatch],
+  );
 
   return (
     <Container>
@@ -26,7 +59,7 @@ const Header: React.FC = () => {
         <div className="cart-div">
           <button type="button" onClick={handleCartBar}>
             <FaShoppingCart size={20} />
-            <strong>5</strong>
+            <strong>{cartSize}</strong>
           </button>
         </div>
       </div>
@@ -42,58 +75,42 @@ const Header: React.FC = () => {
         </div>
         <div className="items-div">
           <ul className="nav-menu-items">
-            <li>
-              <img src={AppleWatch} alt="Apple Watch" />
-              <p>Apple Watch Series 4 GPD</p>
-              <div className="add-remove">
-                <p>Qtd:</p>
-                <div className="qtd-div">
-                  <button type="button">
-                    <IoMdRemove
-                      size={11}
-                      color="#000"
-                      style={{ cursor: 'pointer' }}
-                    />
-                  </button>
-                  <input type="number" readOnly value="3" />
-                  <button type="button">
-                    <GrFormAdd
-                      size={11}
-                      color="#000"
-                      style={{ cursor: 'pointer' }}
-                    />
-                  </button>
+            {cart.map((item, index) => (
+              <li key={index}>
+                <img src={item.product.image} alt={item.product.name} />
+                <p>{item.product.name}</p>
+                <div className="add-remove">
+                  <p>Qtd:</p>
+                  <div className="qtd-div">
+                    <button type="button">
+                      <IoMdRemove
+                        size={11}
+                        color="#000"
+                        style={{ cursor: 'pointer' }}
+                        onClick={() => handleRemoveProductItemFromCart(item)}
+                      />
+                    </button>
+                    <input type="number" readOnly value={item.quantity} />
+                    <button type="button">
+                      <GrFormAdd
+                        size={11}
+                        color="#000"
+                        style={{ cursor: 'pointer' }}
+                        onClick={() => handleAddProductItemFromCart(item)}
+                      />
+                    </button>
+                  </div>
                 </div>
-              </div>
-              <strong>R$ 399,00</strong>
-              <AiFillCloseCircle size={18} style={{ cursor: 'pointer' }} />
-            </li>
-            <li>
-              <img src={JBLSpeaker} alt="JBL Speaker" />
-              <p>JBL Speaker</p>
-              <div className="add-remove">
-                <p>Qtd:</p>
-                <div className="qtd-div">
-                  <button type="button">
-                    <IoMdRemove
-                      size={11}
-                      color="#000"
-                      style={{ cursor: 'pointer' }}
-                    />
-                  </button>
-                  <input type="number" readOnly value="1" />
-                  <button type="button">
-                    <GrFormAdd
-                      size={11}
-                      color="#000"
-                      style={{ cursor: 'pointer' }}
-                    />
-                  </button>
-                </div>
-              </div>
-              <strong>R$ 299,00</strong>
-              <AiFillCloseCircle size={18} style={{ cursor: 'pointer' }} />
-            </li>
+                <strong>
+                  {formatPrice(item.product.price * item.quantity)}
+                </strong>
+                <AiFillCloseCircle
+                  size={18}
+                  style={{ cursor: 'pointer' }}
+                  onClick={() => handleRemoveProductFromCart(item)}
+                />
+              </li>
+            ))}
           </ul>
         </div>
         <div className="bottom-div">
@@ -108,4 +125,4 @@ const Header: React.FC = () => {
   );
 };
 
-export default Header;
+export default connect()(Header);

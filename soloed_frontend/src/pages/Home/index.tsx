@@ -1,10 +1,11 @@
 import React, { useState, useEffect, useCallback } from 'react';
-import { connect, useSelector } from 'react-redux';
+import { connect, useDispatch } from 'react-redux';
 
 import { FiShoppingBag } from 'react-icons/fi';
 import api from '../../services/api';
 import { formatPrice } from '../../util/format';
 import { Container } from './styles';
+import { addProductToCart } from '../../store/modules/cart/actions';
 
 interface IProductsData {
   name: string;
@@ -14,7 +15,8 @@ interface IProductsData {
   priceFormatted: string;
 }
 
-const Home: React.FC = props => {
+const Home: React.FC = () => {
+  const dispatch = useDispatch();
   const [products, setProducts] = useState<IProductsData[]>([]);
 
   useEffect(() => {
@@ -32,13 +34,12 @@ const Home: React.FC = props => {
     loadProducts();
   }, []);
 
-  const cartProducts = useSelector(state => state);
-
-  console.log(cartProducts);
-
-  const handleAddProduct = useCallback((product: IProductsData) => {
-    console.log('nada de mais.');
-  }, []);
+  const handleAddProduct = useCallback(
+    (product: IProductsData) => {
+      dispatch(addProductToCart(product));
+    },
+    [dispatch],
+  );
 
   return (
     <Container>

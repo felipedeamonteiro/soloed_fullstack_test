@@ -23,6 +23,13 @@ const Header: React.FC = () => {
     state => state.cart.items.length,
   );
   const dispatch = useDispatch();
+  const total = useSelector<IState, string>(state =>
+    formatPrice(
+      state.cart.items.reduce((totalSum, product) => {
+        return totalSum + product.product.price * product.quantity;
+      }, 0),
+    ),
+  );
 
   const handleCartBar = useCallback(() => {
     setSidebar(!sidebar);
@@ -116,7 +123,7 @@ const Header: React.FC = () => {
         <div className="bottom-div">
           <div className="total-div">
             <h2>Total:</h2>
-            <h2>R$ 798,00</h2>
+            <h2>{total}</h2>
           </div>
           <button type="button">Finalizar Compra</button>
         </div>

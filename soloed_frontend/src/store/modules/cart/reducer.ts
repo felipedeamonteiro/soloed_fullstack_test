@@ -31,10 +31,30 @@ const cart: Reducer<ICartState> = (state = INITIAL_STATE, action) => {
       }
       case ActionTypes.removeProductFromCart: {
         const { product } = action.payload;
+
+        const productInCartIndex = draft.items.findIndex(
+          item => item.product.name === product.name,
+        );
+
+        if (productInCartIndex >= 0) {
+          draft.items.splice(productInCartIndex, 1);
+        }
         break;
       }
       case ActionTypes.updateProductQuantity: {
         const { cartItem, quantity } = action.payload;
+
+        const productInCartIndex = draft.items.findIndex(
+          item => item.product.name === cartItem.product.name,
+        );
+
+        if (productInCartIndex >= 0) {
+          if (quantity === 0) {
+            draft.items.splice(productInCartIndex, 1);
+          } else {
+            draft.items[productInCartIndex].quantity = Number(quantity);
+          }
+        }
         break;
       }
       default: {

@@ -191,7 +191,7 @@ RESPONSE:
     "price": 399
   },
   {
-    "id": xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx,
+    "id": xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx,
     "name": "JBL Speaker",
     "short_description": "A JBL GO 2 é uma caixa de som com Bluetooth.",
     "image": "https://soloed.s3.us-east-1.amazonaws.com/soloed/dev_challenge/imgs/jbl-speaker.jpg",

@@ -216,3 +216,32 @@ Depois é só rodar:
 ```
 yarn start
 ```
+
+## - Buscando informações para rodar o front de maneira correta
+
+Há duas maneiras de fazer a aplicação funcionar:
+- Utilizando o [`Json.Server`](https://github.com/typicode/json-server) que é uma biblioteca que simula uma API. E aqui eu configurei ela.
+- Utilizando o backend da aplicação como um todo, mas precisa adicionar os produtos no banco de dados antes de rodar a aplicação.
+
+### Usando o Json Server
+
+Na raiz do projeto frontend rode o comando:
+```
+json-server stock.json -p 3333 -w
+```
+
+Dessa maneira o API simulada já deve estar rodando. Para que o front se conecte com ela, vá em `src/services/api.ts` e troque a `baseURL` para:
+```
+baseURL: 'http://localhost:3333'
+```
+
+Pronto, dessa maneira o projeto estará rodando já com os produtos sendo mostrados em tela.
+
+### Usando a API do Backend
+
+Com o backend rodando já (Docker, server e itens já criados no banco), para que o front se conecte com ela, vá em `src/services/api.ts` e troque a `baseURL` para:
+```
+baseURL: 'http://localhost:3334'
+```
+
+Pronto, dessa maneira o projeto estará rodando já com os produtos sendo mostrados em tela.

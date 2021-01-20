@@ -1,4 +1,5 @@
 import React, { useState, useEffect, useCallback } from 'react';
+import { connect, useSelector } from 'react-redux';
 
 import { FiShoppingBag } from 'react-icons/fi';
 import api from '../../services/api';
@@ -13,7 +14,7 @@ interface IProductsData {
   priceFormatted: string;
 }
 
-const Home: React.FC = () => {
+const Home: React.FC = props => {
   const [products, setProducts] = useState<IProductsData[]>([]);
 
   useEffect(() => {
@@ -31,9 +32,12 @@ const Home: React.FC = () => {
     loadProducts();
   }, []);
 
+  const cartProducts = useSelector(state => state);
+
+  console.log(cartProducts);
+
   const handleAddProduct = useCallback((product: IProductsData) => {
-    console.log('adicionando item ao carrinho');
-    console.log('nome do item: ', product);
+    console.log('nada de mais.');
   }, []);
 
   return (
@@ -69,4 +73,4 @@ const Home: React.FC = () => {
   );
 };
 
-export default Home;
+export default connect()(Home);

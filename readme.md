@@ -78,20 +78,26 @@ A arquitetura do projeto é baseada em DDD (Domain Driven Design).
 Primeiro de tudo, é necessário instalar o docker na máquina e baixar a imagem do postgres. Para instalar o docker eu sugiro seguir as instruções indicadas neste [link](https://www.notion.so/Instalando-Docker-6290d9994b0b4555a153576a1d97bee2#c7e37c6a26584d33b20cf332f2bdb31d).
 
 Depois de ter instalado o docker, precisamos criar o container com o banco de dados com a imagem correta. [Aqui](https://hub.docker.com/_/postgres) você poderá ver a documentação para baixar a imagem mais atualizada do Postgres, mas eu passo aqui embaixo um comando para criar o container e baixar a imagem. É importante seguir corretamente o `password` e as `ports` da configuração do projeto, assim como elas estão aqui:
+
 ```
 docker run --name soloed_test -e POSTGRES_PASSWORD=docker -p 5440:5432 -d postgres
 ```
+
 Depois de criar o container e fazer o dowload da imagem, rode o comando abaixo para verificar se está tudo ok:
+
 ```
 docker ps
 ```
+
 #### DBeaver
 
 Para visualizar o banco de dados com o Dbeaver, abra-o e siga os comandos:
+
 - New database connection
 - Postgres
 
 Uma janela irá abrir com a tab `Main`. Lá deve ser colocado:
+
 - Host: localhost
 - Port: 5440
 - Database: soloed_test
@@ -99,6 +105,7 @@ Uma janela irá abrir com a tab `Main`. Lá deve ser colocado:
 - Password: docker
 
 Na tab `PostgresQL`:
+
 - Show all database: `check the box`
 
 Depois clique com o botão direito na conecção que surgiu na janela esquerda. Lá vá em `Create database` e dê o nome de `soloed_test` e deixe o resto da configuração do jeito que está (lembrando que é bom deixar o UTF8 como padrão).
@@ -108,17 +115,23 @@ Depois clique com o botão direito na conecção que surgiu na janela esquerda. 
 Depois de baixar o código do repositório (e deixar o docker rodando), vá para a pasta do backend e rode `yarn` para que todas as dependências sejam instaladas.
 
 Agora é necessário criar as tabelas no banco de dados:
+
 ```
 yarn typeorm migration:run
 ```
+
 E para finalizar, rode:
+
 ```
 yarn dev:server
 ```
+
 Uma mensagem desse jeito deve aparecer no terminal:
+
 ```
 🎨️ Server started on port 3334!
 ```
+
 If so, enjoy the application!
 
 ### - Testando a API
@@ -136,10 +149,13 @@ OBS: `Lembrando que eu criei este endpoint para que os produtos do arquivo stock
 - Method: `POST`
 
 - Endpoint:
+
 ```
 http://localhost:3334/products
 ```
+
 - Body: `JSON`:
+
 ```
 {
   TYPES:
@@ -155,6 +171,7 @@ http://localhost:3334/products
   "price": 249
 }
 ```
+
 E então o `status 200` deve aparecer com os dados do produto armazenado no banco de dados:
 
 ```
@@ -173,9 +190,11 @@ RESPONSE:
 - Method: `GET`
 
 - Endpoint:
+
 ```
 http://localhost:3334/products
 ```
+
 - Body: none:
 
 E então `status 200` deve aparecer com os produtos adicionados no banco:
@@ -213,6 +232,7 @@ Aqui, a versão do `node` é `12.16.3` e o gerenciador de pacotes é o `yarn` na
 Depois de baixar o código do repositório, vá para a pasta do frontend e rode `yarn` para instalar todas as dependências.
 
 Depois é só rodar:
+
 ```
 yarn start
 ```
@@ -220,17 +240,26 @@ yarn start
 ## - Buscando informações para rodar o front de maneira correta
 
 Há duas maneiras de fazer a aplicação funcionar:
+
 - Utilizando o [`Json.Server`](https://github.com/typicode/json-server) que é uma biblioteca que simula uma API. E aqui eu configurei ela.
 - Utilizando o backend da aplicação como um todo, mas precisa adicionar os produtos no banco de dados antes de rodar a aplicação.
 
 ### Usando o Json Server
 
 Na raiz do projeto frontend rode o comando:
+
 ```
 json-server stock.json -p 3333 -w
 ```
 
+ou se o comando json-server não for reconhecido e sua máquina tenha o npx instalado:
+
+```
+npx json-server stock.json -p 3333 -w
+```
+
 Dessa maneira o API simulada já deve estar rodando. Para que o front se conecte com ela, vá em `src/services/api.ts` e troque a `baseURL` para:
+
 ```
 baseURL: 'http://localhost:3333'
 ```
@@ -240,6 +269,7 @@ Pronto, dessa maneira o projeto estará rodando já com os produtos sendo mostra
 ### Usando a API do Backend
 
 Com o backend rodando já (Docker, server e itens já criados no banco), para que o front se conecte com ela, vá em `src/services/api.ts` e troque a `baseURL` para:
+
 ```
 baseURL: 'http://localhost:3334'
 ```
